@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import DashBoard from './DashBoardComponent';
+
 const data = [
   {
     name: 'Page ',
@@ -49,7 +49,7 @@ const data = [
 class HomeComponent extends Component {
   static propTypes = {
     
-        bookUrl: PropTypes.string
+        statsData: PropTypes.func
 
       
     }
@@ -142,7 +142,9 @@ class HomeComponent extends Component {
       this.totalCount = ordersData.length
       this.averagePrice = ordersData.reduce((prev, curr) => prev + Number(curr.price.substr(1).replace(',','')), 0) / ordersData.length;
       this.noReturns = ordersData.filter(order => order.status === 'RETURNED').length
-      console.log('noTotal',this.totalCount,'\n average:' ,this.averagePrice ,'\n noReturns:' ,this.noReturns )
+      
+      this.props.statsData(this.totalCount,this.averagePrice,this.noReturns)
+      //console.log('noTotal',this.totalCount,'\n average:' ,this.averagePrice ,'\n noReturns:' ,this.noReturns )
     }
     render() {
       console.log(data)
@@ -172,7 +174,7 @@ class HomeComponent extends Component {
          
           </LineChart>
 
-            <DashBoard totalCount={this.totalCount} averagePrice={this.averagePrice} noReturns={this.noReturns}/>
+            
         </div>
         )
           }
